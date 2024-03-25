@@ -18,6 +18,10 @@ private:
     int nrRestante;
 public:
 
+    friend std::ostream& operator<<(std::ostream& os, const Student &s){
+
+    }
+
 private:
 
 };
