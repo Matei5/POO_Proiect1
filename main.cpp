@@ -1,103 +1,96 @@
-#include <iostream>
+#include "header.h"
 #include <vector>
-#include <list>
 #include <cstdlib>
 #include <unistd.h>
 
-class Student{
-private:
-    int nr_dosar;
-    std::string Nume;
-    std::string Prenume;
-    std::list<int> note;
-    int medie = mediaEste();
-    int nrRestante = nrRestanteEste();
-public:
-    Student(int nr_dosar = 0, std::string Nume = "", std::string Prenume = "", std::list<int> note= {});
+/// ===================== Constuctori ======================
 
-    friend std::ostream& operator<<(std::ostream& os, const Student &s){
+Student::Student(int nr_dosar, std::string Nume, std::string Prenume, std::list<int> note){
 
-        return os;
-    }
+}
+Profesor::Profesor(int id_contract, std::string Nume, std::string Prenume, int anAngajare){
 
-    ~Student(){
+}
+Examen::Examen(int an, int luna, int zi, int ora, float timpDeLucruInOre, int nrSubiecte){
 
-    }
+}
+Materie::Materie(int an, int semestru, std::string numeMaterie, std::list<Student> Studenti, Examen examen){
 
-private:
+}
 
-    float mediaEste(){
-        float medie = 0;
-        int nrNote = 0;
+/// ===================== cout << ======================
+
+std::ostream& operator<<(std::ostream& os, const Student &s){
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const Profesor &p){
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const Examen &e){
+
+    return os;
+}
+std::ostream& operator<<(std::ostream& os, const Materie &m){
+
+    return os;
+}
+/// ===================== cin >> ======================
+
+std::istream& operator>>(std::istream& is, const Student &s){
+
+    return is;
+}
+std::istream& operator>>(std::istream& is, const Profesor &p){
+
+    return is;
+}
+std::istream& operator>>(std::istream& is, const Examen &e){
+
+    return is;
+}
+std::istream& operator>>(std::istream& is, const Materie &m){
+
+    return is;
+}
 
 
-        return medie/nrNote;
-    }
+/// ===================== Destructori ======================
+Student::~Student() {
 
-    int nrRestanteEste(){
-        int nrRestante = 0;
+}
+Profesor::~Profesor() {
 
-        return nrRestante;
-    }
+}
+Examen::~Examen() {
 
-};
+}
+Materie::~Materie() {
 
-class Profesor{
-private:
-    int id_contract;
-    std::string Nume;
-    std::string Prenume;
-    int anAngajare;
-public:
-    Profesor(int id_contract = 0, std::string Nume = "", std::string Prenume = "", int anAngajare=0);
+}
 
-    ~Profesor(){
+/// ====================== Alte functii =====================
 
-    }
+float Student::mediaEste(){
+    float medie = 0;
+    int nrNote = 0;
 
-private:
 
-};
+    return medie/nrNote;
+}
 
-class Examen{
-private:
-    int an;
-    int luna;
-    int zi;
-    int ora; // format militar ex: 1100
-    float timpDeLucruInOre;
-    int nrSubiecte;
-public:
-    Examen(int an = 0, int luna = 0, int zi = 0, int ora = 0, float timpDeLucruInOre = 0, int nrSubiecte = 0);
+int Student::nrRestanteEste(){
+    int nrRestante = 0;
 
-    ~Examen(){
+    return nrRestante;
+}
 
-    }
-private:
+void Materie::contestatie() {
 
-};
+}
 
-class Materie{
-private:
-    int an;
-    int semestru;
-    std::string numeMaterie;
-    std::list<Student> Studenti;
-    Examen examen;
-public:
-    Materie(int an = 0, int semestru = 0, std::string numeMaterie = "", std::list<Student> Studenti = {}, Examen examen = Examen());
-
-    void contestatie(){
-
-    }
-
-    ~Materie(){
-
-    }
-
-private:
-
-};
+/// ======================== Fara legatura cu clasele =======================
 
 void adaugare(){
 
@@ -170,7 +163,7 @@ int menu(){
 int log(){
 
     std::cout << "|----------------------------------------------------|\n";
-    std::cout << "|               Esti administrator? y/n:";
+    std::cout << "|               Esti administrator? (y/n):";
     char ans;
     std::cin >> ans;
 
@@ -185,13 +178,13 @@ int log(){
         }
         else{
             std::cout << "\nGresit! ---Redirectionare catre meniu\n";
-            sleep(2);
+            sleep(1);
             return menu();
         }
     }
     else{
         std::cout << "\n---Redirectionare catre meniu\n";
-        sleep(2);
+        sleep(1);
         return menu();
     }
 
@@ -199,7 +192,7 @@ int log(){
 
 char load(){
     std::cout << "|----------------------------------------------------|\n";
-    std::cout << "| Load file? (y/n): ";
+    std::cout << "|                   Load file? (y/n):";
 
     char ans;
     std::cin >> ans;
