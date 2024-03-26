@@ -1,6 +1,3 @@
-/*
- git push -u origin main
-*/
 #include <iostream>
 #include <vector>
 #include <list>
@@ -12,17 +9,36 @@ private:
     int nr_dosar;
     std::string Nume;
     std::string Prenume;
-    std::string InitialaTatalui;
     std::list<int> note;
-    int medie;
-    int nrRestante;
+    int medie = mediaEste();
+    int nrRestante = nrRestanteEste();
 public:
+    Student(int nr_dosar = 0, std::string Nume = "", std::string Prenume = "", std::list<int> note= {});
 
     friend std::ostream& operator<<(std::ostream& os, const Student &s){
+
+        return os;
+    }
+
+    ~Student(){
 
     }
 
 private:
+
+    float mediaEste(){
+        float medie = 0;
+        int nrNote = 0;
+
+
+        return medie/nrNote;
+    }
+
+    int nrRestanteEste(){
+        int nrRestante = 0;
+
+        return nrRestante;
+    }
 
 };
 
@@ -33,6 +49,11 @@ private:
     std::string Prenume;
     int anAngajare;
 public:
+    Profesor(int id_contract = 0, std::string Nume = "", std::string Prenume = "", int anAngajare=0);
+
+    ~Profesor(){
+
+    }
 
 private:
 
@@ -40,27 +61,37 @@ private:
 
 class Examen{
 private:
-    bool restanta;
     int an;
     int luna;
     int zi;
     int ora; // format militar ex: 1100
     float timpDeLucruInOre;
-    int numarSubiecte;
+    int nrSubiecte;
 public:
+    Examen(int an = 0, int luna = 0, int zi = 0, int ora = 0, float timpDeLucruInOre = 0, int nrSubiecte = 0);
 
+    ~Examen(){
+
+    }
 private:
 
 };
 
 class Materie{
 private:
+    int an;
+    int semestru;
     std::string numeMaterie;
     std::list<Student> Studenti;
     Examen examen;
 public:
+    Materie(int an = 0, int semestru = 0, std::string numeMaterie = "", std::list<Student> Studenti = {}, Examen examen = Examen());
 
     void contestatie(){
+
+    }
+
+    ~Materie(){
 
     }
 
@@ -145,7 +176,7 @@ int log(){
 
     if(ans == 'y' || ans == 'Y'){
         std::cout << "\n|----------------------------------------------------|\n";
-        std::cout << "| Introduce pinul de 4 cifre:\t";
+        std::cout << "| Introduce pinul de 4 cifre:";
         int pin;
         std::cin >> pin;
         if(pin == 1234) {
@@ -192,3 +223,8 @@ int main() {
 
     return 0;
 }
+
+
+/*
+ git push -u origin main
+*/
