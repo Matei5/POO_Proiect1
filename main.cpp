@@ -6,34 +6,33 @@
 /// ===================== Constuctori ======================
 
 Student::Student(int nr_dosar_, std::string Nume_, std::string Prenume_, std::list<int> note_) : nr_dosar(nr_dosar_),
-                    Nume(Nume_),Prenume(Prenume_),note(note_){
-
-}
+                    Nume(Nume_),Prenume(Prenume_),note(note_){}
 Profesor::Profesor(int id_contract_, std::string Nume_, std::string Prenume_, int anAngajare_) : id_contract(id_contract_),
-                    Nume(Nume_), Prenume(Prenume_), anAngajare(anAngajare_){
-
-}
-Examen::Examen(int an_, int luna_, int zi_, int ora_, float timpDeLucruInOre_, int nrSubiecte_) : an(an_),
-                    luna(luna_), zi(zi),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){
-
-}
-Materie::Materie(int an_, int semestru_, std::string numeMaterie_, std::list<Student> Studenti_, Examen examen_) : an(an_),
-                    semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_){
-
-}
+                    Nume(Nume_), Prenume(Prenume_), anAngajare(anAngajare_){}
+Examen::Examen(std::string numeMaterie_, int an_, int luna_, int zi_, int ora_, float timpDeLucruInOre_, int nrSubiecte_) : an(an_),
+                    numeMaterie(numeMaterie_), luna(luna_), zi(zi),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
+Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::list<Student> Studenti_, Examen examen_, Profesor profesor) : an(an_),
+                    semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_), cadruDidactic(profesor){}
 
 /// ===================== cout << ======================
 
 std::ostream& operator<<(std::ostream& os, const Student &s){
-
+    os << "Student: " << "Nume & Prenume: " << s.Nume << " " << s.Prenume << " // Nr. Dosar: " << s.nr_dosar
+        << "\n          // Note: ";
+    for(int Nota : s.note){
+        os << Nota << " ";
+    }
+    std:: cout << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Profesor &p){
-
+    os << "Profesor: " << "Nume & Prenume: " << p.Nume << " " << p.Prenume << " // Id_contract: " << p.id_contract
+        << "\n          // Anul in care a fost angajat: " << p.anAngajare << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Examen &e){
-
+    os << "Examen: " << "Numele Materiei: " << e.numeMaterie << " // Data: " << e.zi << "." << e.luna << "." << e.an << " la ora " << e.ora/100 << ":" << e.ora%100
+        << "\n          // Timp de lucru: " << e.timpDeLucruInOre << " // Numar de subiecte: " << e.nrSubiecte << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Materie &m){
@@ -196,7 +195,7 @@ int log(){
 
 char load(){
     std::cout << "|----------------------------------------------------|\n";
-    std::cout << "|                   Load file? (y/n):";
+    std::cout << "Load file? (y/n):";
 
     char ans;
     std::cin >> ans;
@@ -206,19 +205,24 @@ char load(){
 
 int main() {
 
-    int an = 2004;
-    char a = load();
-    std::cout << "woop woop, no loading function found\n";
+    std::cout << Student();
+    std::cout << Profesor();
+    std::cout << Examen();
+    std::cout << Materie();
 
-    int option = log(); // options: 1,2,3, ,11,12,13
-
-    if(option == 4) return 0;
-
-    if(option == 1){
-
-    }
-
-    return 0;
+//    int an = 2004;
+//    char a = load();
+//    std::cout << "woop woop, no loading function found\n";
+//
+//    int option = log(); // options: 1,2,3, ,11,12,13
+//
+//    if(option == 4) return 0;
+//
+//    if(option == 1){
+//
+//    }
+//
+//    return 0;
 }
 
 

@@ -44,6 +44,7 @@ private:
 
 class Examen{
 private:
+    std::string numeMaterie;
     int an;
     int luna;
     int zi;
@@ -51,7 +52,7 @@ private:
     float timpDeLucruInOre;
     int nrSubiecte;
 public:
-    Examen(int an_ = 0, int luna_ = 0, int zi_ = 0, int ora_ = 0, float timpDeLucruInOre_ = 0, int nrSubiecte_ = 0);
+    Examen(std::string numeMaterie = "", int an_ = 0, int luna_ = 0, int zi_ = 0, int ora_ = 0, float timpDeLucruInOre_ = 0, int nrSubiecte_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Examen &e);
     friend std::istream& operator>>(std::istream& is, const Examen &e);
@@ -69,8 +70,10 @@ private:
     std::string numeMaterie;
     std::list<Student> Studenti;
     Examen examen;
+    Profesor cadruDidactic;
 public:
-    Materie(int an_ = 0, int semestru_ = 0, std::string numeMaterie_ = "", std::list<Student> Studenti_ = {}, Examen examen_ = Examen());
+    Materie(std::string numeMaterie_ = "", int an_ = 0, int semestru_ = 0,  std::list<Student> Studenti_ = {},
+            Examen examen_ = Examen(), Profesor profesor = Profesor());
 
     friend std::ostream& operator<<(std::ostream& os, const Materie &m);
     friend std::istream& operator>>(std::istream& is, const Materie &m);
