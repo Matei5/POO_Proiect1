@@ -5,16 +5,20 @@
 
 /// ===================== Constuctori ======================
 
-Student::Student(int nr_dosar, std::string Nume, std::string Prenume, std::list<int> note){
+Student::Student(int nr_dosar_, std::string Nume_, std::string Prenume_, std::list<int> note_) : nr_dosar(nr_dosar_),
+                    Nume(Nume_),Prenume(Prenume_),note(note_){
 
 }
-Profesor::Profesor(int id_contract, std::string Nume, std::string Prenume, int anAngajare){
+Profesor::Profesor(int id_contract_, std::string Nume_, std::string Prenume_, int anAngajare_) : id_contract(id_contract_),
+                    Nume(Nume_), Prenume(Prenume_), anAngajare(anAngajare_){
 
 }
-Examen::Examen(int an, int luna, int zi, int ora, float timpDeLucruInOre, int nrSubiecte){
+Examen::Examen(int an_, int luna_, int zi_, int ora_, float timpDeLucruInOre_, int nrSubiecte_) : an(an_),
+                    luna(luna_), zi(zi),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){
 
 }
-Materie::Materie(int an, int semestru, std::string numeMaterie, std::list<Student> Studenti, Examen examen){
+Materie::Materie(int an_, int semestru_, std::string numeMaterie_, std::list<Student> Studenti_, Examen examen_) : an(an_),
+                    semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_){
 
 }
 
@@ -204,7 +208,7 @@ int main() {
 
     int an = 2004;
     char a = load();
-
+    std::cout << "woop woop, no loading function found\n";
 
     int option = log(); // options: 1,2,3, ,11,12,13
 

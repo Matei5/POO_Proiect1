@@ -31,7 +31,7 @@ private:
     std::string Prenume;
     int anAngajare;
 public:
-    Profesor(int id_contract = 0, std::string Nume = "", std::string Prenume = "", int anAngajare=0);
+    Profesor(int id_contract_ = 0, std::string Nume_ = "", std::string Prenume_ = "", int anAngajare_=0);
 
     friend std::ostream& operator<<(std::ostream& os, const Profesor &p);
     friend std::istream& operator>>(std::istream& is, const Profesor &p);
@@ -51,7 +51,7 @@ private:
     float timpDeLucruInOre;
     int nrSubiecte;
 public:
-    Examen(int an = 0, int luna = 0, int zi = 0, int ora = 0, float timpDeLucruInOre = 0, int nrSubiecte = 0);
+    Examen(int an_ = 0, int luna_ = 0, int zi_ = 0, int ora_ = 0, float timpDeLucruInOre_ = 0, int nrSubiecte_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Examen &e);
     friend std::istream& operator>>(std::istream& is, const Examen &e);
@@ -70,7 +70,7 @@ private:
     std::list<Student> Studenti;
     Examen examen;
 public:
-    Materie(int an = 0, int semestru = 0, std::string numeMaterie = "", std::list<Student> Studenti = {}, Examen examen = Examen());
+    Materie(int an_ = 0, int semestru_ = 0, std::string numeMaterie_ = "", std::list<Student> Studenti_ = {}, Examen examen_ = Examen());
 
     friend std::ostream& operator<<(std::ostream& os, const Materie &m);
     friend std::istream& operator>>(std::istream& is, const Materie &m);
