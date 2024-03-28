@@ -8,11 +8,10 @@ private:
     int nr_dosar;
     std::string Nume;
     std::string Prenume;
-    std::list<int> note;
-    int medie = mediaEste();
-    int nrRestante = nrRestanteEste();
+    int nota;
+    bool restanta = areRestanta();
 public:
-    Student(int nr_dosar = 0, std::string Nume = "", std::string Prenume = "", std::list<int> note= {});
+    Student(int nr_dosar = 0, std::string Nume = "", std::string Prenume = "", int nota_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Student &s);
     friend std::istream& operator>>(std::istream& is, const Student &s);
@@ -20,8 +19,7 @@ public:
     ~Student();
 
 private:
-    float mediaEste();
-    int nrRestanteEste();
+    bool areRestanta();
 };
 
 class Profesor{

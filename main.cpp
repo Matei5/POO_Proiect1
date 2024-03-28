@@ -5,12 +5,12 @@
 
 /// ===================== Constuctori ======================
 
-Student::Student(int nr_dosar_, std::string Nume_, std::string Prenume_, std::list<int> note_) : nr_dosar(nr_dosar_),
-                    Nume(Nume_),Prenume(Prenume_),note(note_){}
+Student::Student(int nr_dosar_, std::string Nume_, std::string Prenume_, int nota_) : nr_dosar(nr_dosar_),
+                    Nume(Nume_),Prenume(Prenume_),nota(nota_){}
 Profesor::Profesor(int id_contract_, std::string Nume_, std::string Prenume_, int anAngajare_) : id_contract(id_contract_),
                     Nume(Nume_), Prenume(Prenume_), anAngajare(anAngajare_){}
-Examen::Examen(std::string numeMaterie_, int an_, int luna_, int zi_, int ora_, float timpDeLucruInOre_, int nrSubiecte_) : an(an_),
-                    numeMaterie(numeMaterie_), luna(luna_), zi(zi),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
+Examen::Examen(std::string numeMaterie_, int an_, int luna_, int zi_, int ora_, float timpDeLucruInOre_, int nrSubiecte_) : numeMaterie(numeMaterie_),
+                    an(an_),luna(luna_), zi(zi),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
 Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::list<Student> Studenti_, Examen examen_, Profesor profesor) : an(an_),
                     semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_), cadruDidactic(profesor){}
 
@@ -18,10 +18,7 @@ Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::list<Stu
 
 std::ostream& operator<<(std::ostream& os, const Student &s){
     os << "Student: " << "Nume & Prenume: " << s.Nume << " " << s.Prenume << " // Nr. Dosar: " << s.nr_dosar
-        << "\n          // Note: ";
-    for(int Nota : s.note){
-        os << Nota << " ";
-    }
+        << "\n          // Nota: " << s.nota << " // Are restanta?: " << s.restanta;
     std:: cout << std::endl;
     return os;
 }
@@ -48,19 +45,38 @@ std::ostream& operator<<(std::ostream& os, const Materie &m){
 /// ===================== cin >> ======================
 
 std::istream& operator>>(std::istream& is, const Student &s){
-
+    is >> s.nr_dosar;
+    is >> s.Nume;
+    is >> s.Prenume;
+    is >> s.nota;
     return is;
 }
 std::istream& operator>>(std::istream& is, const Profesor &p){
-
+    is >> p.id_contract;
+    is >> p.Nume;
+    is >> p.Prenume;
+    is >> p.anAngajare;
     return is;
 }
 std::istream& operator>>(std::istream& is, const Examen &e){
+    is >> e.numeMaterie;
+    is >> e.an;
+    is >> e.luna;
+    is >> e.zi;
+    is >> e.ora;
+    is >> e.timpDeLucruInOre;
+    is >> e.nrSubiecte;
 
     return is;
 }
 std::istream& operator>>(std::istream& is, const Materie &m){
 
+    is >> m.numeMaterie;
+    is >> m.an;
+    is >> m.semestru;
+    is >> m.cadruDidactic;
+    is >> m.examen;
+    is >> m.Studenti;
     return is;
 }
 
