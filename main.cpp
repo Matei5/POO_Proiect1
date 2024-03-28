@@ -44,21 +44,21 @@ std::ostream& operator<<(std::ostream& os, const Materie &m){
 }
 /// ===================== cin >> ======================
 
-std::istream& operator>>(std::istream& is, const Student &s){
+std::istream& operator>>(std::istream& is, Student &s){
     is >> s.nr_dosar;
     is >> s.Nume;
     is >> s.Prenume;
     is >> s.nota;
     return is;
 }
-std::istream& operator>>(std::istream& is, const Profesor &p){
+std::istream& operator>>(std::istream& is, Profesor &p){
     is >> p.id_contract;
     is >> p.Nume;
     is >> p.Prenume;
     is >> p.anAngajare;
     return is;
 }
-std::istream& operator>>(std::istream& is, const Examen &e){
+std::istream& operator>>(std::istream& is, Examen &e){
     is >> e.numeMaterie;
     is >> e.an;
     is >> e.luna;
@@ -69,14 +69,24 @@ std::istream& operator>>(std::istream& is, const Examen &e){
 
     return is;
 }
-std::istream& operator>>(std::istream& is, const Materie &m){
+std::istream& operator>>(std::istream& is, Materie &m){
 
     is >> m.numeMaterie;
     is >> m.an;
     is >> m.semestru;
     is >> m.cadruDidactic;
     is >> m.examen;
-    is >> m.Studenti;
+
+    int n; Student temp;
+    std::cout << "Cati studenti sunt in clasa?: ";
+    std::cin >> n;
+    std::cout << "\n";
+
+    for(int i=0;i<n;i++){
+        std::cin >> temp;
+        m.Studenti.push_back(temp);
+    }
+
     return is;
 }
 
@@ -92,23 +102,15 @@ Examen::~Examen() {
 
 }
 Materie::~Materie() {
-
+    Studenti.clear();
 }
 
 /// ====================== Alte functii =====================
 
-float Student::mediaEste(){
-    float medie = 0;
-    int nrNote = 0;
-
-
-    return medie/nrNote;
-}
-
-int Student::nrRestanteEste(){
-    int nrRestante = 0;
-
-    return nrRestante;
+bool Student::areRestanta(){
+    bool restanta = false;
+    if(this->nota < 5) restanta = true;
+    return restanta;
 }
 
 void Materie::contestatie() {
