@@ -36,7 +36,13 @@ std::ostream& operator<<(std::ostream& os, const Examen &e){
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Materie &m){
-
+    os << "Materie: " << "Denumire: " << m.numeMaterie << " // An: " << m.an << "; Sem: " << m.semestru
+            << "\n          // Cadru didactic: " << m.cadruDidactic
+            << "\n          // Examen: " << m.examen
+            << "\n          // Studenti: " ;
+            for(Student stud: m.Studenti){
+                os << stud;
+            }
     return os;
 }
 /// ===================== cin >> ======================
