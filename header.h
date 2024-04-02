@@ -84,7 +84,6 @@ public:
     int getNumarStudenti();
     std::string getEmailProfesor();
     int getNotaStudent(int n);
-    void setNotaStudent(int n,int nota2);
     void schimbareProfesor(const Profesor &prof);
     void contestatie(int nrStud);
 

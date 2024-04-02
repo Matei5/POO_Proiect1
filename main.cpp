@@ -135,7 +135,6 @@ void Materie::contestatie(int nrStud) {
 int Materie::getNumarStudenti(){ return Studenti.size();}
 std::string Materie::getEmailProfesor(){ return cadruDidactic.getEmail();}
 int Materie::getNotaStudent(int n){ return Studenti[n].getNota();}
-void Materie::setNotaStudent(int n,int nota2){ Studenti[n].setNota(nota2);}
 void Materie::schimbareProfesor(const Profesor &prof) { cadruDidactic = prof;}
 Materie Materie::operator+=(const Student &s) {
     Studenti.push_back(s);
@@ -159,7 +158,8 @@ int menu(){
     std::cout << "| 2. Contenstatie\n";
     std::cout << "| 3. Participa la examenul de restanta\n";
     std::cout << "| 4. Email profesor\n";
-    std::cout << "| 6. Schimba student\n";
+    std::cout << "| 5. Schimba profesor\n";
+    std::cout << "| 6. Schimba numar student\n";
     std::cout << "| 7. Print POO\n";
     std::cout << "| 8. Adauga student\n";
     std::cout << "| 9. Exit\n";
@@ -205,12 +205,16 @@ int main() {
     int nrStudent = -1;
     while (nrStudent == -1 && a == 'y') {
         std::cout << "|>-------------------------\n";
+        if(POO.getNumarStudenti() == 0) {
+            std::cout << "| Nu exista studenti! \n";
+            break;
+        }
         std::cout << "| Introduce numarul studentului (0-" << POO.getNumarStudenti() - 1
                   << "):";
 
         std::cin >> nrStudent;
 
-        if (nrStudent < 0 || nrStudent > POO.getNumarStudenti()) {
+        if (nrStudent < 0 || nrStudent >= POO.getNumarStudenti()) {
             std::cout << "| Error: Cod introdus nerecunoscut\n";
             nrStudent = -1;
         }
@@ -227,7 +231,7 @@ int main() {
                 break;
             case 2: {
                 POO.contestatie(nrStudent);
-                std::cout << "Nota noua: " << POO.getNotaStudent(nrStudent) << "\n";
+                std::cout << "Nota noua dupa contestatie: " << POO.getNotaStudent(nrStudent) << "\n";
             }
                 break;
             case 3: {
@@ -235,18 +239,29 @@ int main() {
             }
                 break;
             case 4: {
-                std::cout << POO.getEmailProfesor() << "\n";
+                std::cout << "Email profesor: " << POO.getEmailProfesor() << "\n";
+            }
+                break;
+            case 5:{
+                Profesor prof;
+                std::cin >> prof;
+                POO.schimbareProfesor(prof);
             }
                 break;
             case 6:{
-                while (nrStudent == -1 && a == 'y') {
+                nrStudent = -1;
+                while (nrStudent == -1) {
                     std::cout << "|>-------------------------\n";
+                    if(POO.getNumarStudenti() == 0) {
+                        std::cout << "| Nu exista studenti! \n";
+                        break;
+                    }
                     std::cout << "| Introduce numarul studentului (0-" << POO.getNumarStudenti() - 1
                               << "):";
 
                     std::cin >> nrStudent;
 
-                    if (nrStudent < 0 || nrStudent > POO.getNumarStudenti()) {
+                    if (nrStudent < 0 || nrStudent >= POO.getNumarStudenti()) {
                         std::cout << "| Error: Cod introdus nerecunoscut\n";
                         nrStudent = -1;
                     }
