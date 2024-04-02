@@ -1,9 +1,9 @@
+#include <unistd.h>
 #include "header.h"
-#include <vector>
 
 /// ===================== Constuctori ======================
 
-Student::Student(std::string Nume_, std::string Prenume_, int nota_) : Nume(Nume_),Prenume(Prenume_),nota(nota_){}
+Student::Student(std::string Nume_, std::string Prenume_, float nota_) : Nume(Nume_),Prenume(Prenume_),nota(nota_){}
 Profesor::Profesor(std::string Nume_, std::string Prenume_, std::string email_) : Nume(Nume_), Prenume(Prenume_), email(email_){}
 Examen::Examen(int zi_, int luna_, int an_, int ora_, int timpDeLucruInOre_, int nrSubiecte_) : an(an_),
                     luna(luna_), zi(zi_),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
@@ -14,17 +14,19 @@ Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::vector<S
 
 std::ostream& operator<<(std::ostream& os, const Student &s){
     os << "Student: " << "Nume & Prenume: " << s.Nume << " " << s.Prenume
-        << "\n          // Nota: " << s.nota << " // Are restanta?: " << s.restanta;
-    std:: cout << std::endl;
+        << " // Nota: " << s.nota << " // Are restanta?: ";
+    if(s.restanta) os << "Da";
+    else os << "Nu";
+    os << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Profesor &p){
-    os << "Profesor: " << "Nume & Prenume: " << p.Nume << " " << p.Prenume << "\n          // Email: " << p.email << std::endl;
+    os << "Profesor: " << "Nume & Prenume: " << p.Nume << " " << p.Prenume << " // Email: " << p.email << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Examen &e){
     os << "Examen: " << "Data: " << e.zi << "." << e.luna << "." << e.an << " la ora " << e.ora/100 << ":" << e.ora%100
-        << "\n          // Timp de lucru: " << e.timpDeLucruInOre << " // Numar de subiecte: " << e.nrSubiecte << std::endl;
+        << " // Timp de lucru: " << e.timpDeLucruInOre << " // Numar de subiecte: " << e.nrSubiecte << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Materie &m){
@@ -124,16 +126,30 @@ bool Student::areRestanta() const{
     return rest;
 }
 
-void Materie::contestatie() {
-
+void Materie::contestatie(int nrStud) {
+    float random = rand()%200;
+    float prevNota = Studenti[nrStud].getNota();
+    Studenti[nrStud].setNota(prevNota + (random - 100)/100);
 }
+
+int Materie::getNumarStudenti(){ return Studenti.size();}
+std::string Materie::getEmailProfesor(){ return cadruDidactic.getEmail();}
+int Materie::getNotaStudent(int n){ return Studenti[n].getNota();}
+void Materie::setNotaStudent(int n,int nota2){ Studenti[n].setNota(nota2);}
+void Materie::schimbareProfesor(const Profesor &prof) { cadruDidactic = prof;}
+Materie Materie::operator+=(const Student &s) {
+    Studenti.push_back(s);
+    return *this;
+}
+
+std::string Profesor::getEmail(){ return email;}
+float Student::getNota() const { return nota;}
+void Student::setNota(float n) { nota = n; }
+
 
 /// ======================== Fara legatura cu clasele =======================
 
 void restanta(){
-
-}
-void contestatie(){
 
 }
 
@@ -142,7 +158,9 @@ int menu(){
     std::cout << "| 1. Nota\n";
     std::cout << "| 2. Contenstatie\n";
     std::cout << "| 3. Participa la examenul de restanta\n";
-    std::cout << "| 4. Email profesor:\n";
+    std::cout << "| 4. Email profesor\n";
+    std::cout << "| 6. Schimba student\n";
+    std::cout << "| 7. Print POO\n";
     std::cout << "| 8. Adauga student\n";
     std::cout << "| 9. Exit\n";
     std::cout << "|>-------------------------\n";
@@ -203,15 +221,80 @@ int main() {
     while (option != 9) {
         option = menu();
         switch (option) {
-            case 1: break;
-            case 2: break;
-            case 3: break;
-            case 4: break;
-            case 8: break;
-            case 9: break;
-            default:
+            case 1: {
+                std::cout << "Nota studentului este: " << POO.getNotaStudent(nrStudent) << "\n";
+            }
+                break;
+            case 2: {
+                POO.contestatie(nrStudent);
+                std::cout << "Nota noua: " << POO.getNotaStudent(nrStudent) << "\n";
+            }
+                break;
+            case 3: {
+                restanta();
+            }
+                break;
+            case 4: {
+                std::cout << POO.getEmailProfesor() << "\n";
+            }
+                break;
+            case 6:{
+                while (nrStudent == -1 && a == 'y') {
+                    std::cout << "|>-------------------------\n";
+                    std::cout << "| Introduce numarul studentului (0-" << POO.getNumarStudenti() - 1
+                              << "):";
+
+                    std::cin >> nrStudent;
+
+                    if (nrStudent < 0 || nrStudent > POO.getNumarStudenti()) {
+                        std::cout << "| Error: Cod introdus nerecunoscut\n";
+                        nrStudent = -1;
+                    }
+                }
+            }
+                break;
+            case 7: {
+                std::cout << POO << "\n";
+            }
+                break;
+            case 8: {
+                Student newStudent = Student();
+                std::cin >> newStudent;
+                POO += newStudent;
+            }
+                break;
+            case 9: {}
+                break;
+            default: {
                 std::cout << "| Error: Numar introdus nerecunoscut\n";
                 option = menu();
+            }
+        }
+
+        char ans = 'a';
+
+        while(ans == 'a'){
+            std::cout << "|>-------------------------\n";
+            std::cout << "| Mai doresti sa faci vreo actiune? (y/n):";
+            std::cin >> ans;
+            std::cout << "\n";
+
+            switch (ans) {
+                case 'y': break;
+                case 'n': {
+                    option = 9;
+                }
+                    break;
+                case 'Y': break;
+                case 'N': {
+                    option = 9;
+                }
+                    break;
+                default: {
+                    std::cout << "| Error: Caracter introdus nerecunoscut\n";
+                    ans = 'a';
+                }
+            }
         }
     }
 

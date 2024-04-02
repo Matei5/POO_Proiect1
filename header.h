@@ -2,20 +2,22 @@
 #define PROIECT1_HEADER_H
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 class Student{
 private:
     std::string Nume;
     std::string Prenume;
-    int nota;
+    float nota;
     bool restanta = areRestanta();
 public:
-    Student(std::string Nume = "", std::string Prenume = "", int nota_ = 0);
+    Student(std::string Nume = "", std::string Prenume = "", float nota_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Student &s);
     friend std::istream& operator>>(std::istream& is, Student &s);
 
-    int getNota() const { return nota;}
+    float getNota() const;
+    void setNota(float n);
 
     ~Student();
 
@@ -34,7 +36,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Profesor &p);
     friend std::istream& operator>>(std::istream& is,  Profesor &p);
 
-    std::string getEmailProfesor(){ return email;}
+    std::string getEmail();
 
     ~Profesor();
 
@@ -77,15 +79,17 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Materie &m);
     friend std::istream& operator>>(std::istream& is,  Materie &m);
+    Materie operator+=(const Student &s);
 
-    int getNumarStudenti(){ return Studenti.size();}
-    std::string getEmailProfesor(){ return cadruDidactic.getEmailProfesor();}
-    int getNotaStudent(int n){ return Studenti[n].getNota();}
-    void schimbareProfesor(const Profesor &prof) { cadruDidactic = prof;}
+    int getNumarStudenti();
+    std::string getEmailProfesor();
+    int getNotaStudent(int n);
+    void setNotaStudent(int n,int nota2);
+    void schimbareProfesor(const Profesor &prof);
+    void contestatie(int nrStud);
+
 
     ~Materie();
-
-    void contestatie();
 
 private:
 
