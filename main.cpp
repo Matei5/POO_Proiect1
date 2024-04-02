@@ -1,34 +1,29 @@
 #include "header.h"
 #include <vector>
-#include <cstdlib>
-#include <unistd.h>
 
 /// ===================== Constuctori ======================
 
-Student::Student(int nr_dosar_, std::string Nume_, std::string Prenume_, int nota_) : nr_dosar(nr_dosar_),
-                    Nume(Nume_),Prenume(Prenume_),nota(nota_){}
-Profesor::Profesor(int id_contract_, std::string Nume_, std::string Prenume_, int anAngajare_) : id_contract(id_contract_),
-                    Nume(Nume_), Prenume(Prenume_), anAngajare(anAngajare_){}
-Examen::Examen(std::string numeMaterie_, int an_, int luna_, int zi_, int ora_, float timpDeLucruInOre_, int nrSubiecte_) : numeMaterie(numeMaterie_),
-                    an(an_),luna(luna_), zi(zi),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
-Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::list<Student> Studenti_, Examen examen_, Profesor profesor) : an(an_),
+Student::Student(std::string Nume_, std::string Prenume_, int nota_) : Nume(Nume_),Prenume(Prenume_),nota(nota_){}
+Profesor::Profesor(std::string Nume_, std::string Prenume_, std::string email_) : Nume(Nume_), Prenume(Prenume_), email(email_){}
+Examen::Examen(int zi_, int luna_, int an_, int ora_, int timpDeLucruInOre_, int nrSubiecte_) : an(an_),
+                    luna(luna_), zi(zi_),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
+Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::vector<Student> Studenti_, Examen examen_, Profesor profesor) : an(an_),
                     semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_), cadruDidactic(profesor){}
 
 /// ===================== cout << ======================
 
 std::ostream& operator<<(std::ostream& os, const Student &s){
-    os << "Student: " << "Nume & Prenume: " << s.Nume << " " << s.Prenume << " // Nr. Dosar: " << s.nr_dosar
+    os << "Student: " << "Nume & Prenume: " << s.Nume << " " << s.Prenume
         << "\n          // Nota: " << s.nota << " // Are restanta?: " << s.restanta;
     std:: cout << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Profesor &p){
-    os << "Profesor: " << "Nume & Prenume: " << p.Nume << " " << p.Prenume << " // Id_contract: " << p.id_contract
-        << "\n          // Anul in care a fost angajat: " << p.anAngajare << std::endl;
+    os << "Profesor: " << "Nume & Prenume: " << p.Nume << " " << p.Prenume << "\n          // Email: " << p.email << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Examen &e){
-    os << "Examen: " << "Numele Materiei: " << e.numeMaterie << " // Data: " << e.zi << "." << e.luna << "." << e.an << " la ora " << e.ora/100 << ":" << e.ora%100
+    os << "Examen: " << "Data: " << e.zi << "." << e.luna << "." << e.an << " la ora " << e.ora/100 << ":" << e.ora%100
         << "\n          // Timp de lucru: " << e.timpDeLucruInOre << " // Numar de subiecte: " << e.nrSubiecte << std::endl;
     return os;
 }
@@ -37,7 +32,7 @@ std::ostream& operator<<(std::ostream& os, const Materie &m){
             << "\n          // Cadru didactic: " << m.cadruDidactic
             << "\n          // Examen: " << m.examen
             << "\n          // Studenti: " ;
-            for(Student stud: m.Studenti){
+            for(const Student &stud: m.Studenti){
                 os << stud;
             }
     return os;
@@ -45,46 +40,62 @@ std::ostream& operator<<(std::ostream& os, const Materie &m){
 /// ===================== cin >> ======================
 
 std::istream& operator>>(std::istream& is, Student &s){
-    is >> s.nr_dosar;
+
+    std::cout << "Student: Nume:";
     is >> s.Nume;
+    std::cout << "Prenume:";
     is >> s.Prenume;
+    std::cout << "Nota:";
     is >> s.nota;
     return is;
 }
 std::istream& operator>>(std::istream& is, Profesor &p){
-    is >> p.id_contract;
+
+    std::cout << "Profesor: Nume:";
     is >> p.Nume;
+    std::cout << "Prenume:";
     is >> p.Prenume;
-    is >> p.anAngajare;
+    std::cout << "Email:";
+    is >> p.email;
     return is;
 }
 std::istream& operator>>(std::istream& is, Examen &e){
-    is >> e.numeMaterie;
-    is >> e.an;
-    is >> e.luna;
+
+    std::cout << "Examen: Zi:";
     is >> e.zi;
+    std::cout << "Luna:";
+    is >> e.luna;
+    std::cout << "An:";
+    is >> e.an;
+    std::cout << "Ora (in format militar):";
     is >> e.ora;
+    std::cout << "Minute de lucru:";
     is >> e.timpDeLucruInOre;
+    std::cout << "Numar de subiecte:";
     is >> e.nrSubiecte;
 
     return is;
 }
 std::istream& operator>>(std::istream& is, Materie &m){
 
+    std::cout << "Materie: Nume(legat):";
     is >> m.numeMaterie;
+    std::cout << "An:";
     is >> m.an;
+    std::cout << "Semestru:";
     is >> m.semestru;
     is >> m.cadruDidactic;
     is >> m.examen;
 
     int n; Student temp;
-    std::cout << "Cati studenti sunt in clasa?: ";
+    std::cout << "Cati studenti sunt in clasa?:";
     std::cin >> n;
     std::cout << "\n";
 
     for(int i=0;i<n;i++){
-        std::cin >> temp;
+        is >> temp;
         m.Studenti.push_back(temp);
+        std::cout << "\n";
     }
 
     return is;
@@ -107,10 +118,10 @@ Materie::~Materie() {
 
 /// ====================== Alte functii =====================
 
-bool Student::areRestanta(){
-    bool restanta = false;
-    if(this->nota < 5) restanta = true;
-    return restanta;
+bool Student::areRestanta() const{
+    bool rest = false;
+    if(this->nota < 5) rest = true;
+    return rest;
 }
 
 void Materie::contestatie() {
@@ -119,134 +130,92 @@ void Materie::contestatie() {
 
 /// ======================== Fara legatura cu clasele =======================
 
-void adaugare(){
+void restanta(){
 
 }
-void extragere(){
-
-}
-void schimbare(){
-
-}
-
 void contestatie(){
 
 }
 
-int admin(){
-    std::cout << "|----------------------------------------------------|\n";
-    std::cout << "|     Bine ai venit in baza de date a materiilor!    |\n";
-    std::cout << "|----------------------------------------------------|\n";
-    std::cout << "|===================== OPTIUNI ======================|\n";
-    std::cout << "| Pentru:                 | Introduce:               |\n";
-    std::cout << "| Adaugare de informatii  | 1                        |\n";
-    std::cout << "| Extragere de informatii | 2                        |\n";
-    std::cout << "| Schimbare de informatii | 3                        |\n";
-    std::cout << "| Exit                    | 4                        |\n";
-    std::cout << "|----------------------------------------------------|\n";
-    std::cout << "|\nV\n";
-    int n;
-    std::cin >> n;
-
-    switch(n){
-        case 1: return 11;
-        case 2: return 12;
-        case 3: return 13;
-        case 4: return 4;
-        default:
-            std::cout << "\n\nError: Numar introdus nerecunoscut\n";
-            return admin();
-    }
-
-}
-
 int menu(){
-    std::cout << "|----------------------------------------------------|\n";
-    std::cout << "|        Bine ai venit in meniul materiilor!         |\n";
-    std::cout << "|                                                    |\n";
-    std::cout << "|===================== OPTIUNI ======================|\n";
-    std::cout << "| Pentru:                 | Introduce:               |\n";
-    std::cout << "| Rezultate               | 1                        |\n";
-    std::cout << "| Restanta                | 2                        |\n";
-    std::cout << "| Contenstatie            | 3                        |\n";
-    std::cout << "| Exit                    | 4                        |\n";
-    std::cout << "|----------------------------------------------------|\n";
-    std::cout << "| ?= ";
+    std::cout << "| OPTIUNI: \n";
+    std::cout << "| 1. Nota\n";
+    std::cout << "| 2. Contenstatie\n";
+    std::cout << "| 3. Participa la examenul de restanta\n";
+    std::cout << "| 4. Email profesor:\n";
+    std::cout << "| 8. Adauga student\n";
+    std::cout << "| 9. Exit\n";
+    std::cout << "|>-------------------------\n";
+    std::cout << "| Introduce numarul optiunii dorite: ";
+
     int n;
     std::cin >> n;
+    std::cout << "\n";
 
-    switch(n){
-        case 1: return 1;
-        case 2: return 2;
-        case 3: return 3;
-        case 4: return 4;
-        default:
-            std::cout << "\n\nError: Numar introdus nerecunoscut\n";
-            return menu();
-    }
-}
-
-
-int log(){
-
-    std::cout << "|----------------------------------------------------|\n";
-    std::cout << "|               Esti administrator? (y/n):";
-    char ans;
-    std::cin >> ans;
-
-    if(ans == 'y' || ans == 'Y'){
-        std::cout << "\n|----------------------------------------------------|\n";
-        std::cout << "| Introduce pinul de 4 cifre:";
-        int pin;
-        std::cin >> pin;
-        if(pin == 1234) {
-            std::cout << "\n";
-            return admin();
-        }
-        else{
-            std::cout << "\nGresit! ---Redirectionare catre meniu\n";
-            sleep(1);
-            return menu();
-        }
-    }
-    else{
-        std::cout << "\n---Redirectionare catre meniu\n";
-        sleep(1);
-        return menu();
-    }
-
+    return n;
 }
 
 char load(){
-    std::cout << "|----------------------------------------------------|\n";
-    std::cout << "Load file? (y/n):";
+    std::cout << "|>-------------------------\n";
+    std::cout << "| Load file? (y/n):";
 
     char ans;
     std::cin >> ans;
+    std::cout << "\n";
 
-    return ans;
+    switch(ans){
+        case 'y': return ans;
+        case 'n': return ans;
+        case 'Y': return 'y';
+        case 'N': return 'n';
+        default:
+            std::cout << "| Error: Caracter introdus nerecunoscut\n";
+            return load();
+    }
 }
 
 int main() {
 
-    std::cout << Student();
-    std::cout << Profesor();
-    std::cout << Examen();
-    std::cout << Materie();
+    int an = 2004;
+    char a = load();
 
-//    int an = 2004;
-//    char a = load();
-//    std::cout << "woop woop, no loading function found\n";
-//
-//    int option = log(); // options: 1,2,3, ,11,12,13
-//
-//    if(option == 4) return 0;
-//
-//    if(option == 1){
-//
-//    }
-//
-//    return 0;
+    Materie POO = Materie();
+    if (a == 'y') {
+        std::cin >> POO;
+    }
+
+    int nrStudent = -1;
+    while (nrStudent == -1 && a == 'y') {
+        std::cout << "|>-------------------------\n";
+        std::cout << "| Introduce numarul studentului (0-" << POO.getNumarStudenti() - 1
+                  << "):";
+
+        std::cin >> nrStudent;
+
+        if (nrStudent < 0 || nrStudent > POO.getNumarStudenti()) {
+            std::cout << "| Error: Cod introdus nerecunoscut\n";
+            nrStudent = -1;
+        }
+    }
+
+    int option=-1;
+
+    while (option != 9) {
+        option = menu();
+        switch (option) {
+            case 1: break;
+            case 2: break;
+            case 3: break;
+            case 4: break;
+            case 8: break;
+            case 9: break;
+            default:
+                std::cout << "| Error: Numar introdus nerecunoscut\n";
+                option = menu();
+        }
+    }
+
+    return 0;
 }
 
 

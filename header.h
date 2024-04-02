@@ -1,38 +1,40 @@
 #ifndef PROIECT1_HEADER_H
 #define PROIECT1_HEADER_H
 #include <iostream>
-#include <list>
+#include <vector>
 
 class Student{
 private:
-    int nr_dosar;
     std::string Nume;
     std::string Prenume;
     int nota;
     bool restanta = areRestanta();
 public:
-    Student(int nr_dosar = 0, std::string Nume = "", std::string Prenume = "", int nota_ = 0);
+    Student(std::string Nume = "", std::string Prenume = "", int nota_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Student &s);
     friend std::istream& operator>>(std::istream& is, Student &s);
 
+    int getNota() const { return nota;}
+
     ~Student();
 
 private:
-    bool areRestanta();
+    bool areRestanta() const;
 };
 
 class Profesor{
 private:
-    int id_contract;
     std::string Nume;
     std::string Prenume;
-    int anAngajare;
+    std::string email;
 public:
-    Profesor(int id_contract_ = 0, std::string Nume_ = "", std::string Prenume_ = "", int anAngajare_=0);
+    Profesor(std::string Nume_ = "", std::string Prenume_ = "", std::string email = "");
 
     friend std::ostream& operator<<(std::ostream& os, const Profesor &p);
     friend std::istream& operator>>(std::istream& is,  Profesor &p);
+
+    std::string getEmailProfesor(){ return email;}
 
     ~Profesor();
 
@@ -42,15 +44,14 @@ private:
 
 class Examen{
 private:
-    std::string numeMaterie;
     int an;
     int luna;
     int zi;
     int ora; // format militar ex: 1100
-    float timpDeLucruInOre;
+    int timpDeLucruInOre;
     int nrSubiecte;
 public:
-    Examen(std::string numeMaterie = "", int an_ = 0, int luna_ = 0, int zi_ = 0, int ora_ = 0, float timpDeLucruInOre_ = 0, int nrSubiecte_ = 0);
+    Examen(int zi_ = 0, int luna_ = 0, int an_ = 0, int ora_ = 0, int timpDeLucruInOre_ = 0, int nrSubiecte_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Examen &e);
     friend std::istream& operator>>(std::istream& is,  Examen &e);
@@ -66,15 +67,21 @@ private:
     int an;
     int semestru;
     std::string numeMaterie;
-    std::list<Student> Studenti;
+    std::vector<Student> Studenti;
     Examen examen;
+    Examen restanta;
     Profesor cadruDidactic;
 public:
-    Materie(std::string numeMaterie_ = "", int an_ = 0, int semestru_ = 0,  std::list<Student> Studenti_ = {},
+    Materie(std::string numeMaterie_ = "", int an_ = 0, int semestru_ = 0,  std::vector<Student> Studenti_ = {},
             Examen examen_ = Examen(), Profesor profesor = Profesor());
 
     friend std::ostream& operator<<(std::ostream& os, const Materie &m);
     friend std::istream& operator>>(std::istream& is,  Materie &m);
+
+    int getNumarStudenti(){ return Studenti.size();}
+    std::string getEmailProfesor(){ return cadruDidactic.getEmailProfesor();}
+    int getNotaStudent(int n){ return Studenti[n].getNota();}
+    void schimbareProfesor(const Profesor &prof) { cadruDidactic = prof;}
 
     ~Materie();
 
