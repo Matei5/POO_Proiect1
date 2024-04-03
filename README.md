@@ -41,8 +41,7 @@
 2. Metode publice:
 * getNumarStudenti(): Returnează numărul de studenți din materie.
 * getEmailProfesor(): Returnează adresa de email a profesorului materiei.
-*
-*
-*
-* 
-
+* getNotaStudent(int n): Returnează nota studentului identificat de indexul n.
+* getAnRestanta(): Returnează anul examenului de restanță pentru materie.
+* schimbareProfesor(const Profesor &prof): Schimbă profesorul care predă materia cu un alt profesor dat.
+* operator+=(const Student &s): Adaugă un nou student la lista de studenți ai materiei.
