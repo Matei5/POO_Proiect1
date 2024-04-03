@@ -8,9 +8,15 @@ paun.vrabie@fmi.unibuc.ro
 14
 6
 2024
-0800
+800
 120
 4
+29
+6
+2024
+1000
+120
+8
 2
 Elevul
 Intai
@@ -18,4 +24,3 @@ Intai
 Eleva
 Doi
 8
-1

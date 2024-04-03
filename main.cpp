@@ -128,10 +128,7 @@ std::string Materie::getEmailProfesor(){ return cadruDidactic.getEmail();}
 float Materie::getNotaStudent(int n){ return Studenti[n].getNota();}
 int Materie::getAnRestanta() const { return restanta.getAn(); }
 void Materie::schimbareProfesor(const Profesor &prof) { cadruDidactic = prof;}
-Materie Materie::operator+=(const Student &s) {
-    Studenti.push_back(s);
-    return *this;
-}
+Materie Materie::operator+=(const Student &s) { Studenti.push_back(s); return *this; }
 float Materie::examenRestanta(int nrStud) {
     float prevNota = Studenti[nrStud].getNota();
     if(prevNota<3) Studenti[nrStud]=Studenti[nrStud]+prevNota*2;
@@ -145,10 +142,7 @@ int Examen::getAn() const { return an; }
 
 float Student::getNota() const { return nota;}
 void Student::setNota(float n) { nota = n; }
-Student Student::operator+(float n){
-    nota += n;
-    return *this;
-}
+Student Student::operator+(float n){ nota += n; return *this; }
 
 
 /// ======================== Fara legatura cu clasele =======================
@@ -183,9 +177,9 @@ char load(){
     std::cout << "\n";
 
     switch(ans){
-        case 'y': return ans;
-        case 'n': return ans;
+        case 'y':
         case 'Y': return 'y';
+        case 'n':
         case 'N': return 'n';
         default:
             std::cout << "| Error: Caracter introdus nerecunoscut\n";
@@ -193,6 +187,7 @@ char load(){
     }
 }
 
+/// main prea mare
 int main() {
 
     char a = load();
