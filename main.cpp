@@ -4,10 +4,8 @@
 
 Student::Student(std::string Nume_, std::string Prenume_, float nota_) : Nume(Nume_),Prenume(Prenume_),nota(nota_){}
 Profesor::Profesor(std::string Nume_, std::string Prenume_, std::string email_) : Nume(Nume_), Prenume(Prenume_), email(email_){}
-Examen::Examen(int zi_, int luna_, int an_, int ora_, int timpDeLucruInOre_, int nrSubiecte_) : an(an_),
-                    luna(luna_), zi(zi_),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
-Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::vector<Student> Studenti_, Examen examen_, Examen restanta_, Profesor profesor) : an(an_),
-                    semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_), restanta(restanta_), cadruDidactic(profesor){}
+Examen::Examen(int zi_, int luna_, int an_, int ora_, int timpDeLucruInMinute_, int nrSubiecte_) : an(an_), luna(luna_), zi(zi_),ora(ora_), timpDeLucruInMinute(timpDeLucruInMinute_), nrSubiecte(nrSubiecte_){}
+Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::vector<Student> Studenti_, Examen examen_, Examen restanta_, Profesor profesor) : an(an_), semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_), restanta(restanta_), cadruDidactic(profesor){}
 
 /// ===================== cout << ======================
 
@@ -23,7 +21,7 @@ std::ostream& operator<<(std::ostream& os, const Profesor &p){
 }
 std::ostream& operator<<(std::ostream& os, const Examen &e){
     os << "Examen: " << "Data: " << e.zi << "." << e.luna << "." << e.an << " la ora " << e.ora/100 << ":" << e.ora%100
-        << " // Timp de lucru: " << e.timpDeLucruInOre << " // Numar de subiecte: " << e.nrSubiecte << std::endl;
+        << " // Timp de lucru: " << e.timpDeLucruInMinute << " // Numar de subiecte: " << e.nrSubiecte << std::endl;
     return os;
 }
 std::ostream& operator<<(std::ostream& os, const Materie &m){
@@ -70,7 +68,7 @@ std::istream& operator>>(std::istream& is, Examen &e){
     std::cout << "Ora (in format militar):";
     is >> e.ora;
     std::cout << "Minute de lucru:";
-    is >> e.timpDeLucruInOre;
+    is >> e.timpDeLucruInMinute;
     std::cout << "Numar de subiecte:";
     is >> e.nrSubiecte;
 
@@ -127,7 +125,7 @@ void Materie::contestatie(int nrStud) {
 
 int Materie::getNumarStudenti(){ return Studenti.size();}
 std::string Materie::getEmailProfesor(){ return cadruDidactic.getEmail();}
-int Materie::getNotaStudent(int n){ return Studenti[n].getNota();}
+float Materie::getNotaStudent(int n){ return Studenti[n].getNota();}
 int Materie::getAnRestanta() const { return restanta.getAn(); }
 void Materie::schimbareProfesor(const Profesor &prof) { cadruDidactic = prof;}
 Materie Materie::operator+=(const Student &s) {

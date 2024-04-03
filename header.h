@@ -49,10 +49,10 @@ private:
     int luna;
     int zi;
     int ora; // format militar ex: 1100
-    int timpDeLucruInOre;
+    int timpDeLucruInMinute;
     int nrSubiecte;
 public:
-    Examen(int zi_ = 0, int luna_ = 0, int an_ = 0, int ora_ = 0, int timpDeLucruInOre_ = 0, int nrSubiecte_ = 0);
+    Examen(int zi_ = 0, int luna_ = 0, int an_ = 0, int ora_ = 0, int timpDeLucruInMinute_ = 0, int nrSubiecte_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Examen &e);
     friend std::istream& operator>>(std::istream& is,  Examen &e);
@@ -84,7 +84,7 @@ public:
 
     int getNumarStudenti();
     std::string getEmailProfesor();
-    int getNotaStudent(int n);
+    float getNotaStudent(int n);
     int getAnRestanta() const;
     void schimbareProfesor(const Profesor &prof);
     void contestatie(int nrStud);
