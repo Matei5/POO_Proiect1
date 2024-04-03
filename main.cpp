@@ -11,7 +11,7 @@ Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::vector<S
 
 std::ostream& operator<<(std::ostream& os, const Student &s){
     os << "Student: " << "Nume & Prenume: " << s.Nume << " " << s.Prenume
-        << " // Nota: " << s.nota << " // Are restanta?: ";
+        << " // Nota: " << s.nota;
     os << std::endl;
     return os;
 }
@@ -29,9 +29,9 @@ std::ostream& operator<<(std::ostream& os, const Materie &m){
             << "\n          // Cadru didactic: " << m.cadruDidactic
             << "\n          // Examen: " << m.examen
             << "\n          // Examen de restante: " << m.restanta
-            << "\n          // Studenti: " ;
+            << "\n          // Studenti: " << "\n";
             for(const Student &stud: m.Studenti){
-                os << stud;
+                os << "                         " << stud;
             }
     return os;
 }
