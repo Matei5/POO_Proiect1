@@ -18,9 +18,12 @@ paun.vrabie@fmi.unibuc.ro
 120
 8
 2
-Elevul
+Studentul
 Intai
 4
-Eleva
+Studentul
 Doi
 8
+1
+7
+n
