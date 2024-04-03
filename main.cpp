@@ -307,7 +307,7 @@ int main() {
 
         char ans = 'a';
 
-        while(ans == 'a'){
+        while(ans == 'a' && option!=9){
             std::cout << "|>-------------------------\n";
             std::cout << "| Mai doresti sa faci vreo actiune? (y/n):";
             std::cin >> ans;
