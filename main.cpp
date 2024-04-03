@@ -1,4 +1,3 @@
-#include <unistd.h>
 #include "header.h"
 
 /// ===================== Constuctori ======================
@@ -7,16 +6,14 @@ Student::Student(std::string Nume_, std::string Prenume_, float nota_) : Nume(Nu
 Profesor::Profesor(std::string Nume_, std::string Prenume_, std::string email_) : Nume(Nume_), Prenume(Prenume_), email(email_){}
 Examen::Examen(int zi_, int luna_, int an_, int ora_, int timpDeLucruInOre_, int nrSubiecte_) : an(an_),
                     luna(luna_), zi(zi_),ora(ora_), timpDeLucruInOre(timpDeLucruInOre_), nrSubiecte(nrSubiecte_){}
-Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::vector<Student> Studenti_, Examen examen_, Profesor profesor) : an(an_),
-                    semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_), cadruDidactic(profesor){}
+Materie::Materie(std::string numeMaterie_, int an_, int semestru_, std::vector<Student> Studenti_, Examen examen_, Examen restanta_, Profesor profesor) : an(an_),
+                    semestru(semestru_), numeMaterie(numeMaterie_), Studenti(Studenti_), examen(examen_), restanta(restanta_), cadruDidactic(profesor){}
 
 /// ===================== cout << ======================
 
 std::ostream& operator<<(std::ostream& os, const Student &s){
     os << "Student: " << "Nume & Prenume: " << s.Nume << " " << s.Prenume
         << " // Nota: " << s.nota << " // Are restanta?: ";
-    if(s.restanta) os << "Da";
-    else os << "Nu";
     os << std::endl;
     return os;
 }
@@ -33,6 +30,7 @@ std::ostream& operator<<(std::ostream& os, const Materie &m){
     os << "Materie: " << "Denumire: " << m.numeMaterie << " // An: " << m.an << "; Sem: " << m.semestru
             << "\n          // Cadru didactic: " << m.cadruDidactic
             << "\n          // Examen: " << m.examen
+            << "\n          // Examen de restante: " << m.restanta
             << "\n          // Studenti: " ;
             for(const Student &stud: m.Studenti){
                 os << stud;
@@ -88,6 +86,7 @@ std::istream& operator>>(std::istream& is, Materie &m){
     is >> m.semestru;
     is >> m.cadruDidactic;
     is >> m.examen;
+    is >> m.restanta;
 
     int n; Student temp;
     std::cout << "Cati studenti sunt in clasa?:";
@@ -120,37 +119,41 @@ Materie::~Materie() {
 
 /// ====================== Alte functii =====================
 
-bool Student::areRestanta() const{
-    bool rest = false;
-    if(this->nota < 5) rest = true;
-    return rest;
-}
-
 void Materie::contestatie(int nrStud) {
-    float random = rand()%200;
     float prevNota = Studenti[nrStud].getNota();
-    Studenti[nrStud].setNota(prevNota + (random - 100)/100);
+    if(prevNota < 5.5) Studenti[nrStud]=Studenti[nrStud]+1;
+    else Studenti[nrStud]=Studenti[nrStud]+-1;
 }
 
 int Materie::getNumarStudenti(){ return Studenti.size();}
 std::string Materie::getEmailProfesor(){ return cadruDidactic.getEmail();}
 int Materie::getNotaStudent(int n){ return Studenti[n].getNota();}
+int Materie::getAnRestanta() const { return restanta.getAn(); }
 void Materie::schimbareProfesor(const Profesor &prof) { cadruDidactic = prof;}
 Materie Materie::operator+=(const Student &s) {
     Studenti.push_back(s);
     return *this;
 }
+float Materie::examenRestanta(int nrStud) {
+    float prevNota = Studenti[nrStud].getNota();
+    if(prevNota<3) Studenti[nrStud]=Studenti[nrStud]+prevNota*2;
+    else Studenti[nrStud]=Studenti[nrStud]+prevNota;
+    return Studenti[nrStud].getNota();
+}
 
 std::string Profesor::getEmail(){ return email;}
+
+int Examen::getAn() const { return an; }
+
 float Student::getNota() const { return nota;}
 void Student::setNota(float n) { nota = n; }
+Student Student::operator+(float n){
+    nota += n;
+    return *this;
+}
 
 
 /// ======================== Fara legatura cu clasele =======================
-
-void restanta(){
-
-}
 
 int menu(){
     std::cout << "| OPTIUNI: \n";
@@ -175,7 +178,7 @@ int menu(){
 
 char load(){
     std::cout << "|>-------------------------\n";
-    std::cout << "| Load file? (y/n):";
+    std::cout << "| Introduci informatii pentru materie? (y/n):";
 
     char ans;
     std::cin >> ans;
@@ -194,7 +197,6 @@ char load(){
 
 int main() {
 
-    int an = 2004;
     char a = load();
 
     Materie POO = Materie();
@@ -226,16 +228,33 @@ int main() {
         option = menu();
         switch (option) {
             case 1: {
+                if(POO.getNumarStudenti() == 0) {
+                    std::cout << "Nu sunt studenti!\n";
+                    break;
+                }
+                else if(nrStudent == -1) { std::cout << "Schimba numarul de student (optiunea 6)!\n"; break;}
                 std::cout << "Nota studentului este: " << POO.getNotaStudent(nrStudent) << "\n";
             }
                 break;
             case 2: {
+                if(POO.getNumarStudenti() == 0) {
+                    std::cout << "Nu sunt studenti!\n";
+                    break;
+                }
+                else if(nrStudent == -1) { std::cout << "Schimba numarul de student (optiunea 6)!\n"; break;}
                 POO.contestatie(nrStudent);
                 std::cout << "Nota noua dupa contestatie: " << POO.getNotaStudent(nrStudent) << "\n";
             }
                 break;
             case 3: {
-                restanta();
+                if(POO.getNumarStudenti() == 0) {
+                    std::cout << "Nu sunt studenti!\n";
+                    break;
+                }
+                else if(nrStudent == -1) { std::cout << "Schimba numarul de student (optiunea 6)!\n"; break;}
+                else if(POO.getNotaStudent(nrStudent)>5){ std::cout << "Nu are restanta!\n"; break;}
+                else if(POO.getAnRestanta() == 3){ std::cout << "Nu a fost stabilita o resnta!\n"; break;}
+                std::cout << "Nota noua dupa restanta:  " << POO.examenRestanta(nrStudent) << "\n";
             }
                 break;
             case 4: {

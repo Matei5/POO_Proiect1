@@ -9,12 +9,12 @@ private:
     std::string Nume;
     std::string Prenume;
     float nota;
-    bool restanta = areRestanta();
 public:
     Student(std::string Nume = "", std::string Prenume = "", float nota_ = 0);
 
     friend std::ostream& operator<<(std::ostream& os, const Student &s);
     friend std::istream& operator>>(std::istream& is, Student &s);
+    Student operator+(float n);
 
     float getNota() const;
     void setNota(float n);
@@ -22,7 +22,6 @@ public:
     ~Student();
 
 private:
-    bool areRestanta() const;
 };
 
 class Profesor{
@@ -58,6 +57,8 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Examen &e);
     friend std::istream& operator>>(std::istream& is,  Examen &e);
 
+    int getAn() const;
+
     ~Examen();
 
 private:
@@ -75,7 +76,7 @@ private:
     Profesor cadruDidactic;
 public:
     Materie(std::string numeMaterie_ = "", int an_ = 0, int semestru_ = 0,  std::vector<Student> Studenti_ = {},
-            Examen examen_ = Examen(), Profesor profesor = Profesor());
+            Examen examen_ = Examen(), Examen restanta_ = Examen(), Profesor profesor = Profesor());
 
     friend std::ostream& operator<<(std::ostream& os, const Materie &m);
     friend std::istream& operator>>(std::istream& is,  Materie &m);
@@ -84,8 +85,10 @@ public:
     int getNumarStudenti();
     std::string getEmailProfesor();
     int getNotaStudent(int n);
+    int getAnRestanta() const;
     void schimbareProfesor(const Profesor &prof);
     void contestatie(int nrStud);
+    float examenRestanta(int nrStud);
 
 
     ~Materie();
